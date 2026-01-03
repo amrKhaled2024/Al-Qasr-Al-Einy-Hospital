@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $pageTitle ?? 'Kasr Al Ainy Hospital'; ?></title>
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/public/css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Kasr Al Ainy Hospital</h1>
+                        <p>Advanced Healthcare Management System</p>
+                    </div>
+                </div>
+                <nav id="main-nav">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <ul>
+                            <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=admin-dashboard" class="<?php echo ($currentPage ?? '') === 'dashboard' ? 'active' : ''; ?>">Dashboard</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=admin-doctors" class="<?php echo ($currentPage ?? '') === 'doctors' ? 'active' : ''; ?>">Doctors</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=admin-appointments" class="<?php echo ($currentPage ?? '') === 'appointments' ? 'active' : ''; ?>">Appointments</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=admin-users" class="<?php echo ($currentPage ?? '') === 'users' ? 'active' : ''; ?>">Users</a></li>
+                            <?php elseif ($_SESSION['user_role'] === 'doctor'): ?>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=doctor-dashboard" class="<?php echo ($currentPage ?? '') === 'dashboard' ? 'active' : ''; ?>">Dashboard</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=doctor-appointments" class="<?php echo ($currentPage ?? '') === 'appointments' ? 'active' : ''; ?>">Appointments</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=doctor-schedule">Schedule</a></li>
+                            <?php elseif ($_SESSION['user_role'] === 'receptionist'): ?>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=receptionist-dashboard" class="<?php echo ($currentPage ?? '') === 'dashboard' ? 'active' : ''; ?>">Dashboard</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=receptionist-patients" class="<?php echo ($currentPage ?? '') === 'patients' ? 'active' : ''; ?>">Patients</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=receptionist-appointments" class="<?php echo ($currentPage ?? '') === 'appointments' ? 'active' : ''; ?>">Appointments</a></li>
+                            <?php elseif ($_SESSION['user_role'] === 'patient'): ?>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=patient-dashboard" class="<?php echo ($currentPage ?? '') === 'dashboard' ? 'active' : ''; ?>">Dashboard</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=patient-appointments" class="<?php echo ($currentPage ?? '') === 'appointments' ? 'active' : ''; ?>">My Appointments</a></li>
+                                <li><a href="<?php echo APP_URL; ?>/public/index.php?page=patient-book" class="<?php echo ($currentPage ?? '') === 'book' ? 'active' : ''; ?>">Book Appointment</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo APP_URL; ?>/public/index.php?page=logout">Logout</a></li>
+                        </ul>
+                    <?php else: ?>
+                        <ul>
+                            <li><a href="<?php echo APP_URL; ?>/public/index.php">Home</a></li>
+                            <li><a href="<?php echo APP_URL; ?>/public/index.php?page=login" class="<?php echo ($currentPage ?? '') === 'login' ? 'active' : ''; ?>">Login</a></li>
+                            <li><a href="<?php echo APP_URL; ?>/public/index.php?page=register" class="<?php echo ($currentPage ?? '') === 'register' ? 'active' : ''; ?>">Sign Up</a></li>
+                        </ul>
+                    <?php endif; ?>
+                </nav>
+                
+                <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <?php
+                        $initials = '';
+                        if (isset($_SESSION['user_name'])) {
+                            $nameParts = explode(' ', $_SESSION['user_name']);
+                            foreach ($nameParts as $part) {
+                                $initials .= strtoupper(substr($part, 0, 1));
+                            }
+                        }
+                        echo substr($initials, 0, 2);
+                        ?>
+                    </div>
+                    <div>
+                        <p id="user-name"><?php echo $_SESSION['user_name'] ?? 'User'; ?></p>
+                        <span style="font-size: 0.8rem; color: var(--text-light);"><?php echo ucfirst($_SESSION['user_role'] ?? ''); ?></span>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>
+    
+    <main>

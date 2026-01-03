@@ -1,0 +1,155 @@
+/* Admin specific styles */
+.admin-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.admin-actions .btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.badge-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.badge-info {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.filter-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.quick-stat {
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.quick-stat h3 {
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+.quick-stat p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--gray-medium);
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    color: var(--gray-dark);
+    margin-bottom: 10px;
+}
+
+/* Table styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.table-container table {
+    min-width: 800px;
+}
+
+.table-container th {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 12px 15px;
+}
+
+.table-container td {
+    padding: 10px 15px;
+    vertical-align: middle;
+}
+
+.table-container tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Form styles */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.required:after {
+    content: " *";
+    color: var(--danger-color);
+}
+
+.form-help {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .table-container table {
+        min-width: 100%;
+    }
+    
+    .quick-stats {
+        grid-template-columns: 1fr;
+    }
+}

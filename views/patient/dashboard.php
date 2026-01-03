@@ -1,0 +1,121 @@
+<?php
+$pageTitle = 'Patient Dashboard - ' . APP_NAME;
+include __DIR__ . '/../layouts/header.php';
+?>
+
+<div class="container">
+    <div class="page-header">
+        <h2>Patient Dashboard</h2>
+        <p>Welcome back, <?php echo $_SESSION['user_name']; ?>. Here's your healthcare overview.</p>
+    </div>
+    
+    <div class="stats-cards">
+        <div class="stat-card">
+            <div class="stat-icon appointments">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-info">
+                <h3><?php echo count($appointments); ?></h3>
+                <p>Upcoming Appointments</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon patients">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="stat-info">
+                <h3><?php echo count($notifications); ?></h3>
+                <p>New Notifications</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon departments">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Cardiology</h3>
+                <p>Primary Department</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <a href="<?php echo APP_URL; ?>/public/index.php?page=patient-book" style="text-decoration: none;">
+                <div class="stat-icon doctors" style="background-color: var(--success-color);">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </a>
+
+                <div class="stat-info">
+                    <h3>Book Now</h3>
+                    <p>New Appointment</p>
+                </div>        </div>
+    </div>
+    
+    <div class="page-header">
+        <h3>Upcoming Appointments</h3>
+        <a href="<?php echo APP_URL; ?>/public/index.php?page=patient-appointments" class="btn btn-outline">
+            <i class="fas fa-eye"></i> View All
+        </a>
+    </div>
+    
+    <?php if (empty($appointments)): ?>
+    <div class="alert" style="background-color: var(--primary-light); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+        <p style="margin: 0 0 15px 0;">You don't have any upcoming appointments.</p>
+        <a href="<?php echo APP_URL; ?>/public/index.php?page=patient-book" class="btn btn-primary">
+            <i class="fas fa-calendar-plus"></i> Book Your First Appointment
+        </a>
+    </div>
+    <?php else: ?>
+    <div class="cards-container">
+        <?php foreach ($appointments as $appointment): ?>
+        <div class="card">
+            <div class="card-header">
+                <h3>Appointment with Dr. <?php echo htmlspecialchars($appointment['doctor_name']); ?></h3>
+                <span class="status <?php echo strtolower($appointment['status']); ?>">
+                    <?php echo ucfirst($appointment['status']); ?>
+                </span>
+            </div>
+            <div class="card-body">
+                <p><strong>Date:</strong> <?php echo date('F j, Y', strtotime($appointment['date'])); ?></p>
+                <p><strong>Time:</strong> <?php echo date('h:i A', strtotime($appointment['time'])); ?></p>
+                <p><strong>Doctor:</strong> Dr. <?php echo htmlspecialchars($appointment['doctor_name']); ?></p>
+                <p><strong>Specialization:</strong> <?php echo htmlspecialchars($appointment['specialization'] ?? 'General'); ?></p>
+                <p><strong>Reason:</strong> <?php echo htmlspecialchars($appointment['reason']); ?></p>
+                <?php if ($appointment['status'] === 'pending'): ?>
+                <div style="margin-top: 15px;">
+                    <form action="<?php echo APP_URL; ?>/public/appointment/cancel/<?php echo $appointment['id']; ?>" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this appointment?')">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </form>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if (!empty($notifications)): ?>
+    <div class="page-header" style="margin-top: 40px;">
+        <h3>Recent Notifications</h3>
+    </div>
+    
+    <div class="cards-container">
+        <?php foreach ($notifications as $notification): ?>
+        <div class="card">
+            <div class="card-body">
+                <p style="margin-bottom: 10px;">
+                    <i class="fas fa-bell" style="color: var(--warning-color); margin-right: 10px;"></i>
+                    <?php echo htmlspecialchars($notification['message']); ?>
+                </p>
+                <small style="color: var(--text-light);">
+                    <?php echo date('M j, Y h:i A', strtotime($notification['created_at'])); ?>
+                </small>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+</div>
+
+<?php include __DIR__ . '/../layouts/footer.php'; ?>

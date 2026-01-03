@@ -1,0 +1,23 @@
+{
+    "name": "kasr-al-ainy/hospital-management",
+    "description": "Hospital Management System for Kasr Al Ainy Hospital",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "Models\\": "models/",
+            "Controllers\\": "controllers/",
+            "Config\\": "config/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kasr Al Ainy Hospital",
+            "email": "info@kasalainyhospital.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
